@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                textView.text = ekbWeather.toString()
+                textView.text = Repository.getWeatherList().toString()
             }
         })
     }

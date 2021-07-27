@@ -2,11 +2,12 @@ package ru.mmn.weatherapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.RecoverySystem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity(){
 
         button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                textView.text = "Кнопка нажата!"
+                textView.text = ekbWeather.toString()
             }
         })
     }

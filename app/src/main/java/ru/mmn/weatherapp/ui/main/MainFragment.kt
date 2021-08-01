@@ -6,12 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
-import ru.mmn.weatherapp.R
+import com.google.android.material.snackbar.Snackbar
+import ru.mmn.weatherapp.AppState
+import ru.mmn.weatherapp.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
+    private var binding: MainFragmentBinding? = null
+    private val getBind get() = binding!!
     companion object {
         fun newInstance() = MainFragment()
     }
@@ -20,18 +23,43 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        binding = MainFragmentBinding.inflate(inflater, container, false)
+        val view = getBind.root
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val observer = Observer<Any> { renderData(it)}
-        viewModel.getData().observe(viewLifecycleOwner, observer)
+        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it)})
+        viewModel.getWeather()
     }
 
-    private fun renderData(data: Any) {
-        Toast.makeText(context, "data", Toast.LENGTH_SHORT).show()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                val weatherData = appState.weatherData
+                getBind.loadingLayout.visibility = View.GONE
+                Snackbar.make(getBind.mainView, "Загружено", Snackbar.LENGTH_LONG).show()
+            }
+
+            is AppState.Loading -> {
+                getBind.loadingLayout.visibility = View.VISIBLE
+            }
+
+            is AppState.Error -> {
+                getBind.loadingLayout.visibility = View.GONE
+                Snackbar.make(getBind.mainView, "Ошибка", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Перезагрузка") { viewModel.getWeather()}
+                        .show()
+
+            }
+        }
     }
 
 }

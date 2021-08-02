@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import ru.mmn.weatherapp.AppState
+import ru.mmn.weatherapp.R
+import ru.mmn.weatherapp.Weather
 import ru.mmn.weatherapp.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
@@ -32,7 +34,7 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it)})
-        viewModel.getWeather()
+        viewModel.getWeatherFromLocalSource()
     }
 
     override fun onDestroyView() {
@@ -45,7 +47,7 @@ class MainFragment : Fragment() {
             is AppState.Success -> {
                 val weatherData = appState.weatherData
                 getBind.loadingLayout.visibility = View.GONE
-                Snackbar.make(getBind.mainView, "Загружено", Snackbar.LENGTH_LONG).show()
+                setData(weatherData)
             }
 
             is AppState.Loading -> {
@@ -55,11 +57,22 @@ class MainFragment : Fragment() {
             is AppState.Error -> {
                 getBind.loadingLayout.visibility = View.GONE
                 Snackbar.make(getBind.mainView, "Ошибка", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Перезагрузка") { viewModel.getWeather()}
+                        .setAction("Перезагрузка") { viewModel.getWeatherFromLocalSource()}
                         .show()
 
             }
         }
+    }
+
+    private fun setData(weatherData: Weather) {
+        getBind.cityName.text = weatherData.city.city
+        getBind.cityCoordinates.text = String.format(
+                getString(R.string.city_coordinates),
+                weatherData.city.lat.toString(),
+                weatherData.city.lon.toString()
+        )
+        getBind.temperatureValue.text = weatherData.temperature.toString()
+        getBind.feelsLikeValue.text = weatherData.feelsLike.toString()
     }
 
 }

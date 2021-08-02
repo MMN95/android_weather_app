@@ -1,10 +1,9 @@
-package ru.mmn.weatherapp.ui.main
+package ru.mmn.weatherapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.mmn.weatherapp.AppState
-import ru.mmn.weatherapp.Repository
-import ru.mmn.weatherapp.RepositoryImpl
+import ru.mmn.weatherapp.model.Repository
+import ru.mmn.weatherapp.model.RepositoryImpl
 import java.lang.Thread.sleep
 
 class MainViewModel (

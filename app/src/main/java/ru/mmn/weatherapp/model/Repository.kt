@@ -1,4 +1,4 @@
-package ru.mmn.weatherapp
+package ru.mmn.weatherapp.model
 
 interface Repository {
    fun getWeatherFromServer(): Weather

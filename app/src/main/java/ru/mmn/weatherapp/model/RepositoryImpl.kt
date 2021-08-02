@@ -1,6 +1,6 @@
-package ru.mmn.weatherapp
+package ru.mmn.weatherapp.model
 
-class RepositoryImpl : Repository{
+class RepositoryImpl : Repository {
 
     override fun getWeatherFromServer(): Weather {
         return Weather()

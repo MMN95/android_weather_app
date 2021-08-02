@@ -1,4 +1,4 @@
-package ru.mmn.weatherapp
+package ru.mmn.weatherapp.model
 
 data class Weather (val city: City = getDefaultCity(), val temperature: Int = 0, val feelsLike: Int = 0)
 

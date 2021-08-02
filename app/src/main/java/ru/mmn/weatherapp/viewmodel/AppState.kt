@@ -1,4 +1,6 @@
-package ru.mmn.weatherapp
+package ru.mmn.weatherapp.viewmodel
+
+import ru.mmn.weatherapp.model.Weather
 
 sealed class AppState {
     data class Success(val weatherData: Weather) : AppState()

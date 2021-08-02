@@ -1,4 +1,4 @@
-package ru.mmn.weatherapp.ui.main
+package ru.mmn.weatherapp.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
-import ru.mmn.weatherapp.AppState
+import ru.mmn.weatherapp.viewmodel.AppState
 import ru.mmn.weatherapp.R
-import ru.mmn.weatherapp.Weather
+import ru.mmn.weatherapp.model.Weather
 import ru.mmn.weatherapp.databinding.MainFragmentBinding
+import ru.mmn.weatherapp.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 

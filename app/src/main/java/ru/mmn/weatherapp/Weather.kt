@@ -1,7 +1,8 @@
 package ru.mmn.weatherapp
 
-data class Weather (private var town:String, private var temperature:Int)
+data class Weather (val city: City = getDefaultCity(), val temperature: Int = 0, val feelsLike: Int = 0)
 
-val ekbWeather = Weather("EKB", 25)
-val spbWeather = ekbWeather.copy(town = "SPB")
-val mskWeather = ekbWeather.copy(town = "MSK")
+fun getDefaultCity(): City {
+    return City("Yekaterinburg", 56.51, 60.36)
+}
+

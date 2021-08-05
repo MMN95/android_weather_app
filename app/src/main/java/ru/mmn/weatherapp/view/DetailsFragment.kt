@@ -1,4 +1,4 @@
-package ru.mmn.weatherapp.view
+/*package ru.mmn.weatherapp.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -11,22 +11,22 @@ import com.google.android.material.snackbar.Snackbar
 import ru.mmn.weatherapp.viewmodel.AppState
 import ru.mmn.weatherapp.R
 import ru.mmn.weatherapp.model.Weather
-import ru.mmn.weatherapp.databinding.MainFragmentBinding
+import ru.mmn.weatherapp.databinding.FragmentDetailsBinding
 import ru.mmn.weatherapp.viewmodel.MainViewModel
 
-class MainFragment : Fragment() {
+class DetailsFragment : Fragment() {
 
-    private var binding: MainFragmentBinding? = null
+    private var binding: FragmentDetailsBinding? = null
     private val getBind get() = binding!!
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = DetailsFragment()
     }
 
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val view = getBind.root
         return view
     }
@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it)})
-        viewModel.getWeatherFromLocalSource()
+        viewModel.getWeatherFromLocalSourceRus()
     }
 
     override fun onDestroyView() {
@@ -58,7 +58,7 @@ class MainFragment : Fragment() {
             is AppState.Error -> {
                 getBind.loadingLayout.visibility = View.GONE
                 Snackbar.make(getBind.mainView, "Ошибка", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Перезагрузка") { viewModel.getWeatherFromLocalSource()}
+                        .setAction("Перезагрузка") { viewModel.getWeatherFromLocalSourceRus()}
                         .show()
 
             }
@@ -77,3 +77,4 @@ class MainFragment : Fragment() {
     }
 
 }
+ */

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import ru.mmn.weatherapp.R
 import ru.mmn.weatherapp.databinding.FragmentMainBinding
+import ru.mmn.weatherapp.model.Weather
 import ru.mmn.weatherapp.viewmodel.AppState
 import ru.mmn.weatherapp.viewmodel.MainViewModel
 
@@ -73,6 +74,10 @@ class MainFragment : Fragment() {
     companion object {
         fun newInstance() =
                 MainFragment()
+    }
+
+    interface OnItemViewClickListener {
+        fun onItemViewClick(weather: Weather)
     }
 }
 

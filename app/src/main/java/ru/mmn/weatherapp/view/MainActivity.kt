@@ -3,6 +3,7 @@ package ru.mmn.weatherapp.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.mmn.weatherapp.R
+import ru.mmn.weatherapp.view.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -10,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, DetailsFragment.newInstance())
+                    .replace(R.id.container, MainFragment.newInstance())
                     .commitNow()
         }
     }

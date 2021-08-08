@@ -3,6 +3,7 @@ package ru.mmn.weatherapp.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.mmn.weatherapp.R
+import ru.mmn.weatherapp.view.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

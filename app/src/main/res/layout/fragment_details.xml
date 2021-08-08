@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/fragmentBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainView"
@@ -19,8 +20,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Москва" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/cityCoordinates"
@@ -29,8 +29,7 @@
             android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityName"
-            tools:text="lt/ln: 56.51, 60.36" />
+            app:layout_constraintTop_toBottomOf="@+id/cityName"/>
 
         <TextView
             android:id="@+id/temperatureLabel"
@@ -52,8 +51,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperatureLabel"
-            tools:text="+15" />
+            app:layout_constraintTop_toBottomOf="@+id/temperatureLabel"/>
 
         <TextView
             android:id="@+id/feelsLikeLabel"
@@ -75,8 +73,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feelsLikeLabel"
-            tools:text="-23" />
+            app:layout_constraintTop_toBottomOf="@+id/feelsLikeLabel"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout

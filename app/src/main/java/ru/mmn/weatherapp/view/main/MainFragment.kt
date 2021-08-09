@@ -67,14 +67,14 @@ class MainFragment : Fragment() {
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                getBind.mainFragmentLoadingLayout.visibility = View.GONE
+                getBind.mainFragmentLoadingLayout.hide()
                 adapter.setWeather(appState.weatherData)
             }
             is AppState.Loading -> {
-                getBind.mainFragmentLoadingLayout.visibility = View.VISIBLE
+                getBind.mainFragmentLoadingLayout.show()
             }
             is AppState.Error -> {
-                getBind.mainFragmentLoadingLayout.visibility = View.GONE
+                getBind.mainFragmentLoadingLayout.hide()
                 getBind.mainFragmentRootView.showSnackBar(
                         getString(R.string.error),
                         getString(R.string.reload),
@@ -107,6 +107,19 @@ class MainFragment : Fragment() {
         Snackbar.make(this, text, length).setAction(actionText, action).show()
     }
 
+    private fun View.show(): View {
+        if (visibility != View.VISIBLE){
+            visibility = View.VISIBLE
+        }
+        return this
+    }
+
+    private fun View.hide(): View {
+        if (visibility != View.GONE){
+            visibility = View.GONE
+        }
+        return this
+    }
 
 }
 

@@ -11,6 +11,7 @@
         android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/cityName"
             android:layout_width="wrap_content"
@@ -20,7 +21,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/cityCoordinates"
@@ -29,7 +30,20 @@
             android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityName"/>
+            app:layout_constraintTop_toBottomOf="@+id/cityName" />
+
+        <TextView
+            android:id="@+id/weatherCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_40_dp"
+            android:textSize="@dimen/feels_like_text_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityCoordinates"
+            tools:text="Облачно" />
+
 
         <TextView
             android:id="@+id/temperatureLabel"
@@ -40,7 +54,7 @@
             android:textSize="35sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityCoordinates" />
+            app:layout_constraintTop_toBottomOf="@+id/weatherCondition" />
 
         <TextView
             android:id="@+id/temperatureValue"
@@ -51,7 +65,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperatureLabel"/>
+            app:layout_constraintTop_toBottomOf="@+id/temperatureLabel" />
 
         <TextView
             android:id="@+id/feelsLikeLabel"
@@ -73,7 +87,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/feelsLikeLabel"/>
+            app:layout_constraintTop_toBottomOf="@+id/feelsLikeLabel" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout

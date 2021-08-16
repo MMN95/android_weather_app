@@ -8,6 +8,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import ru.mmn.weatherapp.BuildConfig
 import ru.mmn.weatherapp.model.dto.WeatherDTO
+import ru.mmn.weatherapp.view.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.MalformedURLException

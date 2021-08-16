@@ -1,5 +1,17 @@
 package ru.mmn.weatherapp.services
 
+import DETAILS_CONDITION_EXTRA
+import DETAILS_DATA_EMPTY_EXTRA
+import DETAILS_FEELS_LIKE_EXTRA
+import DETAILS_INTENT_EMPTY_EXTRA
+import DETAILS_INTENT_FILTER
+import DETAILS_LOAD_RESULT_EXTRA
+import DETAILS_REQUEST_ERROR_EXTRA
+import DETAILS_REQUEST_ERROR_MESSAGE_EXTRA
+import DETAILS_RESPONSE_EMPTY_EXTRA
+import DETAILS_RESPONSE_SUCCESS_EXTRA
+import DETAILS_TEMP_EXTRA
+import DETAILS_URL_MALFORMED_EXTRA
 import android.app.IntentService
 import android.content.Intent
 import android.os.Build
@@ -8,7 +20,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import ru.mmn.weatherapp.BuildConfig
 import ru.mmn.weatherapp.model.dto.WeatherDTO
-import ru.mmn.weatherapp.view.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.MalformedURLException
@@ -79,7 +90,7 @@ class DetailsService(name: String = "DetailService") : IntentService(name) {
     }
 
     private fun onResponse(weatherDTO: WeatherDTO) {
-        val fact = weatherDTO.fact
+        val fact = weatherDTO.factDTO
         if (fact == null) {
             onEmptyResponse()
         } else {
@@ -126,3 +137,4 @@ class DetailsService(name: String = "DetailService") : IntentService(name) {
 
     }
 }
+

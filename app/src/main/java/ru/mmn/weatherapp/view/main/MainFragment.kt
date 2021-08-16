@@ -11,7 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import ru.mmn.weatherapp.R
 import ru.mmn.weatherapp.databinding.FragmentMainBinding
 import ru.mmn.weatherapp.model.Weather
-import ru.mmn.weatherapp.view.DetailsFragment
 import ru.mmn.weatherapp.viewmodel.AppState
 import ru.mmn.weatherapp.viewmodel.MainViewModel
 

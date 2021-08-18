@@ -2,10 +2,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import ru.mmn.weatherapp.R
@@ -16,6 +18,8 @@ import ru.mmn.weatherapp.model.dto.WeatherDTO
 import ru.mmn.weatherapp.services.DetailsService
 import ru.mmn.weatherapp.services.LATITUDE_EXTRA
 import ru.mmn.weatherapp.services.LONGITUDE_EXTRA
+import ru.mmn.weatherapp.view.hide
+import ru.mmn.weatherapp.view.show
 
 const val DETAILS_INTENT_FILTER = "DETAILS INTENT FILTER"
 const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
@@ -38,6 +42,7 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
+
     private val loadResultsReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.getStringExtra(DETAILS_LOAD_RESULT_EXTRA)) {
@@ -85,9 +90,22 @@ class DetailsFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        context?.let {
+            LocalBroadcastManager.getInstance(it)
+                    .registerReceiver(loadResultsReceiver, IntentFilter(DETAILS_INTENT_FILTER))
+        }
         return binding.root
     }
 
+    override fun onDestroyView() {
+        _binding = null
+        context?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(loadResultsReceiver)
+        }
+        super.onDestroyView()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Weather()
@@ -95,8 +113,8 @@ class DetailsFragment : Fragment() {
     }
 
     private fun getWeather() {
-        binding.mainView.visibility = View.GONE
-        binding.loadingLayout.visibility = View.VISIBLE
+        binding.mainView.hide()
+        binding.loadingLayout.show()
         context?.let {
             it.startService(Intent(it, DetailsService::class.java).apply {
                 putExtra(
@@ -111,9 +129,10 @@ class DetailsFragment : Fragment() {
         }
     }
 
+
     private fun renderData(weatherDTO: WeatherDTO) {
-        binding.mainView.visibility = View.VISIBLE
-        binding.loadingLayout.visibility = View.GONE
+        binding.mainView.show()
+        binding.loadingLayout.hide()
 
         val fact = weatherDTO.factDTO
         val temp = fact!!.temp
@@ -135,11 +154,6 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     companion object {
 
         const val BUNDLE_EXTRA = "weather"
@@ -150,4 +164,6 @@ class DetailsFragment : Fragment() {
             return fragment
         }
     }
+
+
 }

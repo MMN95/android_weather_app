@@ -1,17 +1,5 @@
 package ru.mmn.weatherapp.services
 
-import DETAILS_CONDITION_EXTRA
-import DETAILS_DATA_EMPTY_EXTRA
-import DETAILS_FEELS_LIKE_EXTRA
-import DETAILS_INTENT_EMPTY_EXTRA
-import DETAILS_INTENT_FILTER
-import DETAILS_LOAD_RESULT_EXTRA
-import DETAILS_REQUEST_ERROR_EXTRA
-import DETAILS_REQUEST_ERROR_MESSAGE_EXTRA
-import DETAILS_RESPONSE_EMPTY_EXTRA
-import DETAILS_RESPONSE_SUCCESS_EXTRA
-import DETAILS_TEMP_EXTRA
-import DETAILS_URL_MALFORMED_EXTRA
 import android.app.IntentService
 import android.content.Intent
 import android.os.Build
@@ -26,6 +14,7 @@ import java.net.MalformedURLException
 import java.net.URL
 import java.util.stream.Collectors
 import javax.net.ssl.HttpsURLConnection
+
 
 const val LATITUDE_EXTRA = "Latitude"
 const val LONGITUDE_EXTRA = "Longitude"
@@ -122,6 +111,7 @@ class DetailsService(name: String = "DetailService") : IntentService(name) {
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
     }
 
+
     private fun onEmptyIntent() {
         putLoadResult(DETAILS_INTENT_EMPTY_EXTRA)
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent)
@@ -136,5 +126,6 @@ class DetailsService(name: String = "DetailService") : IntentService(name) {
         broadcastIntent.putExtra(DETAILS_LOAD_RESULT_EXTRA, result)
 
     }
-}
 
+
+}

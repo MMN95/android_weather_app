@@ -1,5 +1,6 @@
 package ru.mmn.weatherapp.view.main
 
+import DetailsFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,17 +12,17 @@ import com.google.android.material.snackbar.Snackbar
 import ru.mmn.weatherapp.R
 import ru.mmn.weatherapp.databinding.FragmentMainBinding
 import ru.mmn.weatherapp.model.Weather
-import ru.mmn.weatherapp.view.DetailsFragment
 import ru.mmn.weatherapp.viewmodel.AppState
 import ru.mmn.weatherapp.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
-    private var binding: FragmentMainBinding? = null
-    private val getBind get() = binding!!
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java) }
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
     private var isDataSetRus: Boolean = true
 
     private val adapter = MainFragmentAdapter(object : OnItemViewClickListener {
@@ -42,14 +43,14 @@ class MainFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
-        return getBind.getRoot()
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.getRoot()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBind.mainFragmentRecyclerView.adapter = adapter
-        getBind.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
+        binding.mainFragmentRecyclerView.adapter = adapter
+        binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
         viewModel.getWeatherFromLocalSourceRus()
     }
@@ -57,28 +58,28 @@ class MainFragment : Fragment() {
     private fun changeWeatherDataSet() {
         if (isDataSetRus) {
             viewModel.getWeatherFromLocalSourceWorld()
-            getBind.mainFragmentFAB.setImageResource(android.R.drawable.ic_popup_sync)
+            binding.mainFragmentFAB.setImageResource(android.R.drawable.ic_popup_sync)
         } else {
             viewModel.getWeatherFromLocalSourceRus()
-            getBind.mainFragmentFAB.setImageResource(android.R.drawable.ic_popup_sync)
-        }.also {isDataSetRus = !isDataSetRus}
+            binding.mainFragmentFAB.setImageResource(android.R.drawable.ic_popup_sync)
+        }.also { isDataSetRus = !isDataSetRus }
     }
 
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                getBind.mainFragmentLoadingLayout.hide()
+                binding.loadingLayout.hide()
                 adapter.setWeather(appState.weatherData)
             }
             is AppState.Loading -> {
-                getBind.mainFragmentLoadingLayout.show()
+                binding.loadingLayout.show()
             }
             is AppState.Error -> {
-                getBind.mainFragmentLoadingLayout.hide()
-                getBind.mainFragmentRootView.showSnackBar(
+                binding.loadingLayout.hide()
+                binding.mainFragmentFAB.showSnackBar(
                         getString(R.string.error),
                         getString(R.string.reload),
-                        {viewModel.getWeatherFromLocalSourceRus()}
+                        { viewModel.getWeatherFromLocalSourceRus() }
                 )
             }
         }
@@ -108,14 +109,14 @@ class MainFragment : Fragment() {
     }
 
     private fun View.show(): View {
-        if (visibility != View.VISIBLE){
+        if (visibility != View.VISIBLE) {
             visibility = View.VISIBLE
         }
         return this
     }
 
     private fun View.hide(): View {
-        if (visibility != View.GONE){
+        if (visibility != View.GONE) {
             visibility = View.GONE
         }
         return this

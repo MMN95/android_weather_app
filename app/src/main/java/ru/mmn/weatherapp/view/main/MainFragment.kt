@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import ru.mmn.weatherapp.R
 import ru.mmn.weatherapp.databinding.MainFragmentBinding
@@ -21,6 +20,7 @@ import ru.mmn.weatherapp.viewmodel.MainViewModel
 private const val IS_RUSSIAN_KEY = "LIST_OF_RUSSIAN_KEY"
 
 class MainFragment : Fragment() {
+
 
     companion object {
         fun newInstance() = MainFragment()
@@ -42,6 +42,7 @@ class MainFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter.setOnItemViewClickListener { weather ->
+
             activity?.supportFragmentManager?.apply {
                 beginTransaction()
                         .add(R.id.container, DetailsFragment.newInstance(Bundle().apply {

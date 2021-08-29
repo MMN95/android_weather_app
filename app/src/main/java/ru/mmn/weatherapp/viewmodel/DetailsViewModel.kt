@@ -2,17 +2,16 @@ package ru.mmn.weatherapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
-import ru.mmn.weatherapp.model.Weather
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ru.mmn.weatherapp.app.App.Companion.getHistoryDao
+import ru.mmn.weatherapp.model.AppState
+import ru.mmn.weatherapp.model.data.Weather
+import ru.mmn.weatherapp.model.data.convertDtoToModel
 import ru.mmn.weatherapp.model.dto.FactDTO
 import ru.mmn.weatherapp.model.dto.WeatherDTO
-import ru.mmn.weatherapp.model.getDefaultCity
-import ru.mmn.weatherapp.repository.DetailsRepository
-import ru.mmn.weatherapp.repository.DetailsRepositoryImpl
-import ru.mmn.weatherapp.repository.RemoteDataSource
+import ru.mmn.weatherapp.model.repository.*
 import java.io.IOException
 
 private const val SERVER_ERROR = "Ошибка сервера"
@@ -20,22 +19,25 @@ private const val REQUEST_ERROR = "Ошибка запроса на сервер
 private const val CORRUPTED_DATA = "Неполные данные"
 
 class DetailsViewModel(
-        private val detailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
-        private val detailsRepositoryImpl: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource())
+        val detailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
+        private val detailsRepository: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource()),
+        private val historyRepository: LocalRepository = LocalRepositoryImpl(getHistoryDao())
 ) : ViewModel() {
 
-    fun getLiveData() = detailsLiveData
-
-    fun getWeatherFromRemoteSource(requestLink: String) {
+    fun getWeatherFromRemoteSource(lat: Double, lon: Double) {
         detailsLiveData.value = AppState.Loading
-        detailsRepositoryImpl.getWeatherDetailsFromServer(requestLink, callBack)
+        detailsRepository.getWeatherDetailsFromServer(lat, lon, callBack)
     }
 
-    private val callBack = object : Callback {
+    fun saveCityToDB(weather: Weather) {
+        historyRepository.saveEntity(weather)
+    }
+
+    private val callBack = object : Callback<WeatherDTO> {
 
         @Throws(IOException::class)
-        override fun onResponse(call: Call?, response: Response) {
-            val serverResponse: String? = response.body()?.string()
+        override fun onResponse(call: Call<WeatherDTO>, response: Response<WeatherDTO>) {
+            val serverResponse: WeatherDTO? = response.body()
             detailsLiveData.postValue(
                     if (response.isSuccessful && serverResponse != null) {
                         checkResponse(serverResponse)
@@ -45,26 +47,17 @@ class DetailsViewModel(
             )
         }
 
-
-override fun onFailure(call: Call?, e: IOException?) {
-    detailsLiveData.postValue(AppState.Error(Throwable(e?.message ?: REQUEST_ERROR)))
-}
-
-private fun checkResponse(serverResponse: String): AppState {
-    val weatherDTO: WeatherDTO =
-            Gson().fromJson(serverResponse, WeatherDTO::class.java)
-    val fact = weatherDTO.factDTO
-    return if (fact == null || fact.temp == null || fact.feels_like == null || fact.condition.isNullOrEmpty()) {
-        AppState.Error(Throwable(CORRUPTED_DATA))
-    } else {
-        AppState.Success(convertDtoToModel(weatherDTO))
+        override fun onFailure(call: Call<WeatherDTO>, t: Throwable) {
+            detailsLiveData.postValue(AppState.Error(Throwable(t.message ?: REQUEST_ERROR)))
+        }
     }
-}
-}
 
-    private fun convertDtoToModel(weatherDTO: WeatherDTO): List<Weather> {
-        val fact: FactDTO = weatherDTO.factDTO!!
-        return listOf(Weather(getDefaultCity(), fact.temp!!, fact.feels_like!!, fact.condition!!))
-
+    fun checkResponse(serverResponse: WeatherDTO): AppState {
+        val fact: FactDTO? = serverResponse.fact
+        return if (fact?.temp == null || fact.feels_like == null || fact.condition.isNullOrEmpty()) {
+            AppState.Error(Throwable(CORRUPTED_DATA))
+        } else {
+            AppState.Success(convertDtoToModel(serverResponse))
+        }
     }
 }

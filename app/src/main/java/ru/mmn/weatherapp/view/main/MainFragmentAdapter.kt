@@ -1,30 +1,34 @@
 package ru.mmn.weatherapp.view.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ru.mmn.weatherapp.R
-import ru.mmn.weatherapp.model.Weather
+import ru.mmn.weatherapp.databinding.MainRecyclerItemBinding
+import ru.mmn.weatherapp.model.data.Weather
 
-class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnItemViewClickListener?) : RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
+
+class MainFragmentAdapter :
+        RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
 
     private var weatherData: List<Weather> = listOf()
+    private var onItemViewClickListener: (Weather) -> Unit = {}
+
+    fun setOnItemViewClickListener(onItemViewClickListener: (Weather) -> Unit){
+        this.onItemViewClickListener = onItemViewClickListener
+    }
 
     fun setWeather(data: List<Weather>) {
         weatherData = data
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-    ): MainViewHolder {
-        return MainViewHolder(
-                LayoutInflater.from(parent.context)
-                        .inflate(R.layout.fragment_main_recycler_item, parent, false) as View
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        val binding = MainRecyclerItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
         )
+        return MainViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
@@ -35,16 +39,15 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
         return weatherData.size
     }
 
-    fun removeListener() {
-        onItemViewClickListener = null
-    }
-
-    inner class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class MainViewHolder(val binding: MainRecyclerItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
 
         fun bind(weather: Weather) {
-            itemView.apply {
-                findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text = weather.city.city
-                setOnClickListener { onItemViewClickListener?.onItemViewClick(weather) }
+            binding.apply {
+                mainFragmentRecyclerItemTextView.text = weather.city.city
+                root.setOnClickListener {
+                    onItemViewClickListener(weather)
+                }
             }
         }
     }

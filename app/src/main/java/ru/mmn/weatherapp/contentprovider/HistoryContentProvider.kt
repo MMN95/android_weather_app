@@ -6,8 +6,9 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build.ID
-import ru.mmn.weatherapp.room.HistoryDao
+import ru.mmn.weatherapp.app.App.Companion.getHistoryDao
+import ru.mmn.weatherapp.room.*
+
 
 private const val URI_ALL = 1
 private const val URI_ID = 2

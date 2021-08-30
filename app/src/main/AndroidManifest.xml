@@ -3,6 +3,9 @@
     package="ru.mmn.weatherapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
 
     <application
         android:name=".app.App"

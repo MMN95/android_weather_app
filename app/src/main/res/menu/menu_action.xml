@@ -6,4 +6,12 @@
         android:title="@string/menu_title_history"
         android:icon="@android:drawable/ic_dialog_info"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_google_maps"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="@string/google_maps"
+        app:showAsAction="always" />
+
+
 </menu>

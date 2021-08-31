@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import ru.mmn.weatherapp.MapsFragment
+import ru.mmn.weatherapp.googlemaps.GoogleMapsFragment
 import ru.mmn.weatherapp.R
 import ru.mmn.weatherapp.databinding.MainActivityBinding
 import ru.mmn.weatherapp.view.HistoryFragment
-import ru.mmn.weatherapp.view.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_google_maps -> {
                 supportFragmentManager.apply {
                     beginTransaction()
-                            .add(R.id.container, MapsFragment())
+                            .add(R.id.container, GoogleMapsFragment())
                             .addToBackStack("")
                             .commitAllowingStateLoss()
                 }

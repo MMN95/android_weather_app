@@ -36,6 +36,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            versionNameSuffix "-debug"
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -43,6 +46,19 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    flavorDimensions 'version'
+
+    productFlavors {
+        freeConfig {
+            dimension 'version'
+            versionNameSuffix '.free'
+        }
+        paidConfig {
+            dimension 'version'
+            versionNameSuffix '.paid'
+        }
     }
 }
 

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -50,6 +51,8 @@ dependencies {
     //Room
     implementation 'androidx.room:room-runtime:2.3.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:22.0.0'
     kapt 'androidx.room:room-compiler:2.3.0'
 
     //Picasso

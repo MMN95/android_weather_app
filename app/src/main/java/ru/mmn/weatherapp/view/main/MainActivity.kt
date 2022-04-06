@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import ru.mmn.weatherapp.BuildConfig
 import ru.mmn.weatherapp.googlemaps.GoogleMapsFragment
 import ru.mmn.weatherapp.R
 import ru.mmn.weatherapp.databinding.MainActivityBinding
@@ -41,15 +43,20 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_google_maps -> {
-                supportFragmentManager.apply {
-                    beginTransaction()
-                            .add(R.id.container, GoogleMapsFragment())
-                            .addToBackStack("")
-                            .commitAllowingStateLoss()
+                if (BuildConfig.FLAVOR == "paidConfig") {
+                    supportFragmentManager.apply {
+                        beginTransaction()
+                                .add(R.id.container, GoogleMapsFragment())
+                                .addToBackStack("")
+                                .commitAllowingStateLoss()
+                    }
+                }
+                if (BuildConfig.FLAVOR == "freeConfig") {
+                    Toast.makeText(this, "Эта функция доступна только в платной версии приложения", Toast.LENGTH_LONG).show()
                 }
                 true
             }
-                else -> super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
